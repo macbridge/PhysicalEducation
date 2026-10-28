@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>設定｜体育ラーニング</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-root="../">
+  <header class="site-header" data-site-header></header>
+  <main class="container">
+    <section class="hero">
+      <h1>スプレッドシートとの接続</h1>
+      <p>自分のスプレッドシートでデプロイした GAS の「ウェブアプリURL」と「合言葉」を入力してください。<br>
+        入力した内容はこの端末のブラウザにだけ保存されます。</p>
+    </section>
+    <section class="panel">
+      <form class="settings-form" data-settings-form>
+        <label>ウェブアプリURL
+          <input type="url" name="url" required placeholder="https://script.google.com/macros/s/xxxx/exec">
+        </label>
+        <label>合言葉（GASで設定したもの）
+          <input type="password" name="token" required autocomplete="off">
+        </label>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button type="submit" class="btn">保存して接続テスト</button>
+          <button type="button" class="btn btn--ghost" data-clear>接続設定を削除</button>
+        </div>
+      </form>
+      <p class="status" data-status role="status"></p>
+    </section>
+  </main>
+  <script type="module" src="../js/app.js"></script>
+</body>
+</html>
