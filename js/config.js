@@ -23,9 +23,13 @@ export const DOMAINS = [
     contents: ["短距離走・リレー", "長距離走", "ハードル走", "走り幅跳び", "走り高跳び", "三段跳び", "砲丸投げ", "やり投げ"],
     metrics: [
       { key: "sprint100", label: "100m走", unit: "秒", better: "lower" },
-      { key: "run1500", label: "1500m走", unit: "秒", better: "lower" },
+      { key: "run1500", label: "1500m走", unit: "秒", better: "lower", format: "time" },
+      { key: "hurdle", label: "ハードル走", unit: "秒", better: "lower" },
       { key: "longjump", label: "走り幅跳び", unit: "m", better: "higher" },
+      { key: "highjump", label: "走り高跳び", unit: "m", better: "higher" },
+      { key: "shotput", label: "砲丸投げ", unit: "m", better: "higher" },
     ],
+    content: true, // js/content/c-rikujo.js に領域固有の学習コンテンツあり
   },
   {
     id: "D", slug: "d-suiei", name: "水泳", color: "#1c7ed6",

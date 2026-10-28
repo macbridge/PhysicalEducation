@@ -135,3 +135,53 @@ input {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* 記録の統計・一覧 */
+.badge--demo { background: #f08c00; }
+.stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 4px 0 12px; }
+.stats:empty { display: none; }
+.stat { display: grid; padding: 12px 14px; border-radius: 12px; background: var(--bg); border: 1px solid var(--border); }
+.stat span { font-size: 0.8rem; color: var(--muted); }
+.stat strong { font-size: 1.4rem; line-height: 1.3; }
+.stat small { font-size: 0.78rem; color: var(--muted); }
+.stat--up strong, .stat--up small { color: #2f9e44; }
+.stat--down strong { color: var(--error); }
+.record-list { margin-top: 16px; }
+.record-list summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+.record-list table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.record-list th, .record-list td { padding: 8px; border-bottom: 1px solid var(--border); text-align: left; }
+.best-mark { font-size: 0.7rem; font-weight: 800; padding: 1px 6px; border-radius: 99px; background: var(--domain-color); color: #fff; }
+.link-btn { min-height: 36px; border: 0; background: none; color: var(--error); cursor: pointer; font: inherit; text-decoration: underline; }
+
+/* 領域コンテンツ（種目カード・図解） */
+.event-card h3 { margin: 4px 0 8px; }
+.event-card h4 { margin: 12px 0 4px; font-size: 1rem; }
+.event-card ol, .event-card ul { margin: 0; padding-left: 1.4em; }
+.event-card li { margin-bottom: 4px; }
+.aim { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--bg); }
+.safety { margin: 12px 0 0; padding: 8px 12px; border-radius: 10px; border: 1px solid #f08c00; color: inherit; }
+.two-col { display: grid; gap: 8px 24px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.sprint-svg { width: 100%; height: auto; display: block; }
+.sprint-svg .zone rect { fill: var(--bg); transition: fill 0.3s ease; }
+.sprint-svg .zone.is-active rect { fill: color-mix(in srgb, var(--domain-color) 18%, transparent); }
+.sprint-svg .zone text { fill: var(--muted); font-size: 15px; font-weight: 700; }
+.sprint-svg .zone.is-active text { fill: var(--domain-color); }
+.sprint-svg .ground { stroke: var(--text); stroke-width: 3; }
+.sprint-svg .mark { stroke: var(--domain-color); stroke-width: 4; }
+.sprint-svg .runner line { stroke: var(--text); stroke-width: 6; stroke-linecap: round; }
+.sprint-svg .runner circle { fill: var(--text); }
+.phase-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.phase-controls button:not(.btn) {
+  min-height: 44px; padding: 0 14px; border-radius: 99px; cursor: pointer;
+  border: 1px solid var(--border); background: transparent; color: var(--text); font: inherit;
+}
+.phase-controls button[aria-pressed="true"] { border-color: var(--domain-color); color: var(--domain-color); font-weight: 700; }
+.phase-controls .btn { margin-left: auto; }
+.tip { margin-top: 12px; padding: 12px 16px; border-left: 5px solid var(--domain-color); border-radius: 0 10px 10px 0; background: var(--bg); }
+.tip p { margin: 4px 0 0; }
+
+@media (max-width: 600px) {
+  .phase-controls .btn { margin-left: 0; flex: 1 1 100%; }
+  .record-list td:nth-child(3), .record-list th:nth-child(3) { display: none; }
+}

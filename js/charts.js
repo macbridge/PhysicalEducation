@@ -18,7 +18,7 @@ export function renderTrendChart(canvas, records, { label, unit, color, better }
         backgroundColor: color + "33",
         pointRadius: 5,
         tension: 0.25,
-        fill: true,
+        fill: false,
       }],
     },
     options: {

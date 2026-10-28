@@ -99,7 +99,10 @@ function readRows_(def) {
 }
 
 function formatDate_(v) {
-  return v instanceof Date ? Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd') : String(v);
+  // シートが日付として自動変換した値は、シートのタイムゾーンで yyyy-MM-dd に戻す
+  return v instanceof Date
+    ? Utilities.formatDate(v, SpreadsheetApp.getActive().getSpreadsheetTimeZone(), 'yyyy-MM-dd')
+    : String(v);
 }
 
 // ---- 記録 ----
