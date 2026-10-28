@@ -58,7 +58,8 @@ export const DOMAINS = [
     id: "E", slug: "e-kyugi", name: "球技", color: "#2f9e44",
     summary: "勝敗を競う楽しさや喜びを味わい、作戦や状況に応じた技能で仲間と連携しゲームを展開する。",
     contents: ["ゴール型（バスケットボール・ハンドボール・サッカー・ラグビー）", "ネット型（バレーボール・卓球・テニス・バドミントン）", "ベースボール型（ソフトボール）"],
-    metrics: [{ key: "selfeval", label: "ゲーム自己評価", unit: "点", better: "higher" }],
+    metrics: [], // 種目別の個人スタッツ・自己評価は js/content/e-kyugi.js
+    content: true,
   },
   {
     id: "F", slug: "f-budo", name: "武道", color: "#3b5bdb",
@@ -78,7 +79,13 @@ export const DOMAINS = [
     id: "H", slug: "h-riron", name: "体育理論", color: "#0c8599",
     summary: "スポーツの文化的特性や現代のスポーツの発展、効果的な学習の仕方、豊かなスポーツライフの設計について理解する。",
     contents: ["スポーツの文化的特性や現代のスポーツの発展", "運動やスポーツの効果的な学習の仕方", "豊かなスポーツライフの設計の仕方"],
-    metrics: [{ key: "quiz", label: "確認テスト", unit: "点", better: "higher" }],
+    // 単元ごとの確認テストの得点（js/content/h-riron.js のテストから保存。紙のテストの点を手入力してもよい）
+    metrics: [
+      { key: "unit1", label: "単元1 文化的特性・発展", unit: "点", better: "higher" },
+      { key: "unit2", label: "単元2 効果的な学習の仕方", unit: "点", better: "higher" },
+      { key: "unit3", label: "単元3 スポーツライフの設計", unit: "点", better: "higher" },
+    ],
+    content: true,
   },
 ];
 

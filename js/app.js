@@ -120,7 +120,7 @@ async function renderDomainPage() {
     status.classList.toggle("status--error", isError);
   };
   // 領域コンテンツ（体力テストのレーダーチャート等）に記録の追加・削除を知らせる
-  const notifyChanged = () => document.dispatchEvent(new CustomEvent("pe:records-changed", { detail: { domain: d.id } }));
+  const notifyChanged = () => document.dispatchEvent(new CustomEvent("pe:records-changed", { detail: { domain: d.id, source: "panel" } }));
 
   async function load() {
     el.querySelector("[data-unit]").textContent = current.format === "time" ? "分:秒 または 秒" : current.unit;
@@ -175,6 +175,13 @@ async function renderDomainPage() {
     } finally {
       btn.disabled = false;
     }
+  });
+
+  // 領域コンテンツ（体育理論の確認テスト等）が記録を追加したときは、その項目のタブに切り替えて読み直す
+  document.addEventListener("pe:records-changed", (e) => {
+    if (e.detail.domain !== d.id || e.detail.source === "panel") return;
+    const tab = e.detail.metric && el.querySelector(`[data-metric="${e.detail.metric}"]`);
+    tab ? tab.click() : load();
   });
 
   list.addEventListener("click", async (e) => {

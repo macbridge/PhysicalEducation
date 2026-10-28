@@ -260,3 +260,51 @@ input {
   .skill { min-width: 76px; padding: 4px 8px; }
   .eval-form .btn { justify-self: stretch; }
 }
+
+/* E. 球技：種目選択・作戦ボード・スタッツ */
+.sport-type h3 { margin: 8px 0 6px; font-size: 0.92rem; color: var(--muted); }
+.sport-type .metric-tabs { margin-bottom: 8px; }
+.board { border-radius: 12px; overflow: hidden; background: var(--bg); }
+.board-svg { display: block; width: 100%; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; }
+.board-svg .court-bg { fill: color-mix(in srgb, var(--domain-color) 16%, transparent); }
+.board-svg .court :is(line, rect, circle, path):not(.court-bg) { fill: none; stroke: var(--muted); stroke-width: 2; }
+.board-svg .court .dashed { stroke-dasharray: 8 6; }
+.board-svg .court .net { stroke: var(--text); stroke-width: 4; }
+.board-svg .court .goal, .board-svg .court .spot, .board-svg .court .base { fill: var(--text); stroke: none; }
+.board-svg .court .in-goal { fill: color-mix(in srgb, var(--domain-color) 28%, transparent); stroke: none; }
+.board-svg .court .infield { fill: color-mix(in srgb, #c08a4a 30%, transparent); stroke: none; }
+.board-svg .court-label { fill: var(--muted); font-size: 13px; font-weight: 700; }
+.piece { cursor: grab; outline: none; }
+.piece circle { stroke: var(--surface); stroke-width: 2; }
+.piece .hit { fill: transparent; stroke: none; } /* 指でつかみやすいよう、見えない当たり判定を広げる */
+.piece text { fill: #fff; font-size: 16px; font-weight: 800; pointer-events: none; }
+.piece--a circle:not(.hit) { fill: var(--domain-color); }
+.piece--b circle:not(.hit) { fill: #c92a2a; }
+.piece--ball circle:not(.hit) { fill: #fff; stroke: #212529; stroke-width: 2.5; }
+.piece.is-dragging { cursor: grabbing; }
+.piece:focus-visible circle:not(.hit) { stroke: var(--text); stroke-width: 4; }
+.board-legend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem; color: var(--muted); }
+.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 8px; }
+.dot--a { background: var(--domain-color); margin-left: 0; }
+.dot--b { background: #c92a2a; }
+.dot--ball { background: #fff; border: 2px solid #212529; }
+.stat-inputs { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.stat-inputs input { width: 100%; }
+
+/* H. 体育理論：解説と確認テスト */
+.lesson-text { margin: 4px 0 8px; }
+.quiz { display: grid; gap: 12px; margin-top: 8px; }
+.quiz-item { margin: 0; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; }
+.quiz-item legend { padding: 0 4px; font-weight: 700; }
+.quiz-option {
+  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 8px;
+  border-radius: 10px; color: var(--text); font-size: 1rem; cursor: pointer;
+}
+.quiz-option:hover { background: var(--bg); }
+.quiz-option input { min-height: 0; width: 20px; height: 20px; accent-color: var(--domain-color); }
+.quiz-item.is-correct { border-color: #2f9e44; }
+.quiz-item.is-wrong { border-color: var(--error); }
+.quiz-feedback { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--bg); font-size: 0.92rem; }
+.is-correct .quiz-feedback { border-left: 5px solid #2f9e44; }
+.is-wrong .quiz-feedback { border-left: 5px solid var(--error); }
+.quiz .phase-controls .btn { margin-left: 0; }
