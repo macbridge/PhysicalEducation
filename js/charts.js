@@ -37,7 +37,8 @@ export function renderTrendChart(canvas, records, { label, unit, color, better }
 
 // 体力テストの得点（1〜10点）をレーダーチャートで描画する
 // datasets: [{ label: "今回", data: [7, 5, null, ...], color: "#e8590c" }, ...]（null は未測定）
-export function renderRadarChart(canvas, labels, datasets) {
+// max / step で目盛りを変えられる（ダンスの評価は 1〜5 点）
+export function renderRadarChart(canvas, labels, datasets, { max = 10, step = 2 } = {}) {
   instances.get(canvas)?.destroy();
 
   const css = getComputedStyle(document.documentElement);
@@ -65,8 +66,8 @@ export function renderRadarChart(canvas, labels, datasets) {
       maintainAspectRatio: false,
       scales: {
         r: {
-          min: 0, max: 10,
-          ticks: { stepSize: 2, backdropColor: "transparent", color: text },
+          min: 0, max,
+          ticks: { stepSize: step, backdropColor: "transparent", color: text },
           grid: { color: grid },
           angleLines: { color: grid },
           // スマホ幅では項目名を小さくして、チャート本体の面積を確保する
@@ -77,6 +78,41 @@ export function renderRadarChart(canvas, labels, datasets) {
         legend: { position: "bottom", labels: { color: text } },
         tooltip: { callbacks: { label: (c) => `${c.dataset.label}：${c.raw ?? "未測定"}点` } },
       },
+    },
+  });
+  instances.set(canvas, chart);
+  return chart;
+}
+
+// 複数系列の推移を折れ線グラフで描画する（例：自己評価と仲間からの評価の合計点）
+// labels: 日付の配列 / datasets: [{ label, data: [数値 | null, ...], color, dashed }]
+// 系列が1本のときは legend: false にして凡例を出さない（見出しで何のグラフか分かるため）
+export function renderLinesChart(canvas, labels, datasets, { unit, min, max, legend = true } = {}) {
+  instances.get(canvas)?.destroy();
+
+  const text = getComputedStyle(document.documentElement).getPropertyValue("--muted").trim();
+  const chart = new window.Chart(canvas, {
+    type: "line",
+    data: {
+      labels,
+      datasets: datasets.map(({ label, data, color, dashed }) => ({
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: color,
+        borderWidth: 2,
+        borderDash: dashed ? [6, 4] : [],
+        pointRadius: 5,
+        tension: 0.25,
+        spanGaps: true,
+      })),
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      scales: { y: { min, max, ticks: { stepSize: 1 }, title: { display: Boolean(unit), text: unit } } },
+      plugins: { legend: { display: legend, position: "bottom", labels: { color: text } } },
     },
   });
   instances.set(canvas, chart);

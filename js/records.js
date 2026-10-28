@@ -36,3 +36,29 @@ export function summarize(records, metric) {
 
   return { sorted, count: sorted.length, best, latest, previous, diff, improved };
 }
+
+const byDate = (a, b) => a.date.localeCompare(b.date) || String(a.createdAt).localeCompare(String(b.createdAt));
+
+// metric ごとの最新の記録（チェックリストや評価の「現在の状態」）
+export function latestByMetric(records) {
+  const latest = new Map();
+  for (const r of [...records].sort(byDate)) latest.set(r.metric, r);
+  return latest;
+}
+
+// 記録のある日付ごとに、その日までの最新状態で value が threshold 以上の metric の数を数える
+// 例：技のチェック（2=できた）から「できた技の数」の推移を作る
+export function countOverTime(records, threshold) {
+  const dates = [...new Set(records.map((r) => r.date))].sort();
+  return dates.map((date) => {
+    const latest = latestByMetric(records.filter((r) => r.date <= date));
+    const value = [...latest.values()].filter((r) => Number(r.value) >= threshold).length;
+    return { date, value };
+  });
+}
+
+// 端末のローカル日付（yyyy-mm-dd）。valueAsDate は UTC 基準のため使わない
+export function today() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+}

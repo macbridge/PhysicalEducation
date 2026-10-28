@@ -24,7 +24,8 @@ export const DOMAINS = [
     id: "B", slug: "b-kikai", name: "器械運動", color: "#7048e8",
     summary: "技がよりよくできる楽しさや喜びを味わい、自己に適した技で演技することを目指す。",
     contents: ["マット運動", "鉄棒運動", "平均台運動", "跳び箱運動"],
-    metrics: [{ key: "skills", label: "できた技の数", unit: "個", better: "higher" }],
+    metrics: [], // 技の習得チェックは js/content/b-kikai.js（Records に技ごとの行を追加）
+    content: true,
   },
   {
     id: "C", slug: "c-rikujo", name: "陸上競技", color: "#d6336c",
@@ -60,16 +61,18 @@ export const DOMAINS = [
     metrics: [{ key: "selfeval", label: "ゲーム自己評価", unit: "点", better: "higher" }],
   },
   {
-    id: "F", slug: "f-budo", name: "武道", color: "#495057",
+    id: "F", slug: "f-budo", name: "武道", color: "#3b5bdb",
     summary: "技を高め勝敗を競う楽しさや喜びを味わい、伝統的な考え方を理解し、相手を尊重する。",
     contents: ["柔道", "剣道"],
-    metrics: [{ key: "skills", label: "習得した技の数", unit: "個", better: "higher" }],
+    metrics: [], // 技の習得チェックは js/content/f-budo.js
+    content: true,
   },
   {
     id: "G", slug: "g-dance", name: "ダンス", color: "#f08c00",
     summary: "感じを込めて踊ったり仲間と自由に踊ったりする楽しさや喜びを味わい、交流や発表ができるようにする。",
     contents: ["創作ダンス", "フォークダンス", "現代的なリズムのダンス"],
-    metrics: [{ key: "selfeval", label: "自己評価", unit: "点", better: "higher" }],
+    metrics: [], // 自己評価・相互評価は js/content/g-dance.js
+    content: true,
   },
   {
     id: "H", slug: "h-riron", name: "体育理論", color: "#0c8599",

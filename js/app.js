@@ -2,7 +2,7 @@
 import { DOMAINS, findDomain } from "./config.js";
 import { api, isConnected, isDemo, loadConnection, saveConnection, startDemo, clearConnection } from "./api.js";
 import { renderTrendChart } from "./charts.js";
-import { parseValue, formatValue, summarize } from "./records.js";
+import { parseValue, formatValue, summarize, today } from "./records.js";
 
 // ルートからの相対パス（index.html は ""、pages/ 配下は "../"）
 const root = document.body.dataset.root ?? "";
@@ -83,7 +83,7 @@ async function renderDomainPage() {
       <ul class="chip-list">${d.contents.map((c) => `<li>${c}</li>`).join("")}</ul>
     </section>
     <div data-domain-content></div>
-    <section class="panel">
+    ${d.metrics.length ? `<section class="panel">
       <h2>記録とふり返り</h2>
       <div class="metric-tabs" role="tablist">
         ${d.metrics.map((m, i) => `<button role="tab" data-metric="${m.key}" aria-selected="${i === 0}">${m.label}</button>`).join("")}
@@ -98,21 +98,21 @@ async function renderDomainPage() {
       <div class="stats" data-stats></div>
       <div class="chart-box"><canvas data-chart aria-label="記録の推移グラフ"></canvas></div>
       <div data-record-list></div>
-    </section>`;
+    </section>` : ""}`;
 
   if (d.content) {
     const { render } = await import(`./content/${d.slug}.js`);
     render(el.querySelector("[data-domain-content]"), d);
   }
+  // 記録項目を持たない領域（チェックリスト・評価シート型）は、記録を領域コンテンツ側で扱う
+  if (!d.metrics.length) return;
 
   const form = el.querySelector("[data-record-form]");
   const status = el.querySelector("[data-status]");
   const canvas = el.querySelector("[data-chart]");
   const stats = el.querySelector("[data-stats]");
   const list = el.querySelector("[data-record-list]");
-  // valueAsDate は UTC 基準のため、端末のローカル日付で初期値を入れる
-  const now = new Date();
-  form.date.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  form.date.value = today();
   let current = d.metrics[0];
 
   const setStatus = (msg, isError = false) => {
