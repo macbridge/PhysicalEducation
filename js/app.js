@@ -119,6 +119,8 @@ async function renderDomainPage() {
     status.textContent = msg;
     status.classList.toggle("status--error", isError);
   };
+  // 領域コンテンツ（体力テストのレーダーチャート等）に記録の追加・削除を知らせる
+  const notifyChanged = () => document.dispatchEvent(new CustomEvent("pe:records-changed", { detail: { domain: d.id } }));
 
   async function load() {
     el.querySelector("[data-unit]").textContent = current.format === "time" ? "分:秒 または 秒" : current.unit;
@@ -166,6 +168,7 @@ async function renderDomainPage() {
       form.value.value = "";
       form.memo.value = "";
       await load();
+      notifyChanged();
       setStatus("保存しました。");
     } catch (err) {
       setStatus(err.message, true);
@@ -180,6 +183,7 @@ async function renderDomainPage() {
     try {
       await api.deleteRecord(id);
       await load();
+      notifyChanged();
       setStatus("削除しました。");
     } catch (err) {
       setStatus(err.message, true);

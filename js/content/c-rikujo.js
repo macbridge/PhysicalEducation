@@ -1,5 +1,6 @@
 // C. 陸上競技 — 領域固有の学習コンテンツ（種目解説 ＋ 短距離走の局面図解）
 // ねらいは高等学校学習指導要領解説（保健体育編）の技能の内容に基づく
+import { tabbedCards, setupTabbedCards } from "./shared.js";
 
 const EVENTS = [
   {
@@ -137,23 +138,6 @@ function distanceAt(t) {
 
 const phaseAt = (d) => PHASES.findLast((p) => d >= p.from);
 
-function eventCard(e) {
-  return `
-    <h3>${e.name}</h3>
-    <p class="aim"><strong>ねらい</strong>　${e.aim}</p>
-    <div class="two-col">
-      <div>
-        <h4>技能のポイント</h4>
-        <ol>${e.points.map((p) => `<li>${p}</li>`).join("")}</ol>
-      </div>
-      <div>
-        <h4>主なルール</h4>
-        <ul>${e.rules.map((r) => `<li>${r}</li>`).join("")}</ul>
-        ${e.safety ? `<p class="safety">⚠ 安全　${e.safety}</p>` : ""}
-      </div>
-    </div>`;
-}
-
 function sprintFigure() {
   const { start, end, ground } = TRACK;
   const width = end - start;
@@ -287,21 +271,8 @@ export function render(container) {
         </div>
       </div>
     </section>
-    <section class="panel">
-      <h2>種目別の学習ポイントとルール</h2>
-      <div class="metric-tabs" role="tablist">
-        ${EVENTS.map((e, i) => `<button role="tab" data-event="${i}" aria-selected="${i === 0}">${e.name}</button>`).join("")}
-      </div>
-      <article class="event-card" data-event-card>${eventCard(EVENTS[0])}</article>
-    </section>`;
+    ${tabbedCards("種目別の学習ポイントとルール", EVENTS)}`;
 
-  const card = container.querySelector("[data-event-card]");
-  container.querySelectorAll("[data-event]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      container.querySelectorAll("[data-event]").forEach((t) => t.setAttribute("aria-selected", t === tab));
-      card.innerHTML = eventCard(EVENTS[tab.dataset.event]);
-    });
-  });
-
+  setupTabbedCards(container.querySelector("[data-tabbed-cards]"), EVENTS);
   setupSprintAnimation(container);
 }

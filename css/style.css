@@ -185,3 +185,35 @@ input {
   .phase-controls .btn { margin-left: 0; flex: 1 1 100%; }
   .record-list td:nth-child(3), .record-list th:nth-child(3) { display: none; }
 }
+
+/* D. 水泳：クロールの図解 */
+.stroke-svg .water { fill: color-mix(in srgb, var(--domain-color) 14%, transparent); }
+.stroke-svg .surface { stroke: var(--domain-color); stroke-width: 2; stroke-dasharray: 10 6; }
+.stroke-svg .label { fill: var(--muted); font-size: 14px; font-weight: 700; }
+.stroke-svg .body, .stroke-svg .leg, .stroke-svg .arm { stroke: var(--text); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.stroke-svg .leg { stroke-width: 7; }
+.stroke-svg .arm--back { opacity: 0.35; }
+.stroke-svg .arm--front { stroke: var(--domain-color); }
+.stroke-svg .head { fill: var(--text); }
+.note { margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
+.safety-list { margin: 0; padding-left: 1.4em; }
+.safety-list li { margin-bottom: 4px; }
+
+/* A. 体つくり運動：体力テストの得点 */
+.segmented { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; padding: 0; border: 0; }
+.segmented legend { float: left; margin-right: 8px; font-size: 0.9rem; color: var(--muted); }
+.segmented label {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px;
+  border: 1px solid var(--border); border-radius: 99px; cursor: pointer; color: var(--text); font-size: 1rem;
+}
+.segmented label:has(input:checked) { border-color: var(--domain-color); color: var(--domain-color); font-weight: 700; }
+.segmented input { min-height: 0; accent-color: var(--domain-color); }
+.chart-box--radar { height: 380px; }
+.table-scroll { overflow-x: auto; margin-top: 12px; }
+.score-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.score-table th, .score-table td { padding: 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.score-table td small { display: block; font-size: 0.75rem; color: var(--muted); }
+
+@media (max-width: 600px) {
+  .chart-box--radar { height: 320px; }
+}

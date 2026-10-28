@@ -34,3 +34,51 @@ export function renderTrendChart(canvas, records, { label, unit, color, better }
   instances.set(canvas, chart);
   return chart;
 }
+
+// 体力テストの得点（1〜10点）をレーダーチャートで描画する
+// datasets: [{ label: "今回", data: [7, 5, null, ...], color: "#e8590c" }, ...]（null は未測定）
+export function renderRadarChart(canvas, labels, datasets) {
+  instances.get(canvas)?.destroy();
+
+  const css = getComputedStyle(document.documentElement);
+  const grid = css.getPropertyValue("--border").trim();
+  const text = css.getPropertyValue("--muted").trim();
+  const chart = new window.Chart(canvas, {
+    type: "radar",
+    data: {
+      labels,
+      datasets: datasets.map(({ label, data, color, dashed }) => ({
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: color + "26",
+        borderWidth: 2,
+        borderDash: dashed ? [6, 4] : [],
+        pointBackgroundColor: color,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        spanGaps: true,
+      })),
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { stepSize: 2, backdropColor: "transparent", color: text },
+          grid: { color: grid },
+          angleLines: { color: grid },
+          // スマホ幅では項目名を小さくして、チャート本体の面積を確保する
+          pointLabels: { color: text, padding: 6, font: (c) => ({ size: c.chart.width < 500 ? 11 : 13 }) },
+        },
+      },
+      plugins: {
+        legend: { position: "bottom", labels: { color: text } },
+        tooltip: { callbacks: { label: (c) => `${c.dataset.label}：${c.raw ?? "未測定"}点` } },
+      },
+    },
+  });
+  instances.set(canvas, chart);
+  return chart;
+}

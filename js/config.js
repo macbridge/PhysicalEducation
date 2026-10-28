@@ -5,11 +5,20 @@ export const DOMAINS = [
     id: "A", slug: "a-taitsukuri", name: "体つくり運動", color: "#e8590c",
     summary: "体ほぐしの運動と実生活に生かす運動の計画を通して、自他の心と体に向き合い、健康や体力の向上を図る。",
     contents: ["体ほぐしの運動", "実生活に生かす運動の計画"],
+    // 新体力テスト（12〜19歳）の8項目＋運動の実施記録。得点化は js/fitness.js
     metrics: [
       { key: "grip", label: "握力", unit: "kg", better: "higher" },
       { key: "situp", label: "上体起こし", unit: "回", better: "higher" },
       { key: "sitreach", label: "長座体前屈", unit: "cm", better: "higher" },
+      { key: "sidestep", label: "反復横とび", unit: "点", better: "higher" },
+      { key: "endurance", label: "持久走", unit: "秒", better: "lower", format: "time" },
+      { key: "shuttle", label: "20mシャトルラン", unit: "回", better: "higher" },
+      { key: "dash50", label: "50m走", unit: "秒", better: "lower" },
+      { key: "standjump", label: "立ち幅とび", unit: "cm", better: "higher" },
+      { key: "handball", label: "ハンドボール投げ", unit: "m", better: "higher" },
+      { key: "exercise", label: "運動の実施時間", unit: "分", better: "higher" },
     ],
+    content: true,
   },
   {
     id: "B", slug: "b-kikai", name: "器械運動", color: "#7048e8",
@@ -38,7 +47,11 @@ export const DOMAINS = [
     metrics: [
       { key: "free50", label: "クロール50m", unit: "秒", better: "lower" },
       { key: "breast50", label: "平泳ぎ50m", unit: "秒", better: "lower" },
+      { key: "back50", label: "背泳ぎ50m", unit: "秒", better: "lower" },
+      { key: "fly25", label: "バタフライ25m", unit: "秒", better: "lower" },
+      { key: "distance", label: "長く泳ぐ（距離）", unit: "m", better: "higher" },
     ],
+    content: true,
   },
   {
     id: "E", slug: "e-kyugi", name: "球技", color: "#2f9e44",
