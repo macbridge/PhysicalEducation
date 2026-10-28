@@ -100,7 +100,8 @@ const demoApi = {
 
 const gasApi = {
   ping: () => get("ping"),
-  getRecords: (domain, metric) => get("getRecords", { domain, ...(metric && { metric }) }),
+  // 未指定の引数は送らない（URLSearchParams は undefined を文字列 "undefined" にしてしまうため）
+  getRecords: (domain, metric) => get("getRecords", { ...(domain && { domain }), ...(metric && { metric }) }),
   addRecord: (record) => post("addRecord", record),
   deleteRecord: (id) => post("deleteRecord", { id }),
   getProfile: () => get("getProfile"),

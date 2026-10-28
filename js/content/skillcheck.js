@@ -12,6 +12,13 @@ const MASTERED = 2;
 const skillMetric = (sport, skill) => `skill:${sport.short}:${skill}`;
 const sportMetrics = (sport) => sport.groups.flatMap((g) => g.skills.map((s) => skillMetric(sport, s)));
 
+// 「できた」技の数と全体の技の数（トップページのダッシュボードでも使う）
+export function masteredCount(records, sports) {
+  const metrics = sports.flatMap(sportMetrics);
+  const latest = latestByMetric(records);
+  return { done: metrics.filter((m) => Number(latest.get(m)?.value ?? 0) === MASTERED).length, total: metrics.length };
+}
+
 function sportPanel(sport, options) {
   return `
     <article class="event-card">${infoCard(sport, options)}</article>

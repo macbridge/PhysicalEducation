@@ -20,7 +20,7 @@ const TYPES = [
 ];
 
 // 1日のゲームを通して数えやすい項目に絞る。rates は「成功数 / 試行数」の割合
-const SPORTS = [
+export const SPORTS = [
   {
     id: "basketball", name: "バスケットボール", type: "goal", court: "basketball",
     points: [

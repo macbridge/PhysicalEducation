@@ -1,12 +1,12 @@
 # HANDOFF — 作業再開用の引き継ぎ書
 
-最終更新: 2026-10-29（Phase 5 完了・承認待ちで一時停止）
+最終更新: 2026-10-29（Phase 6 完了。ロードマップの全 Phase の実装が完了）
 
 ## 再開時にまず行うこと
 1. このファイル → `docs/TODO.md` → `docs/ROADMAP.md` → `docs/PROJECT_PLAN.md` の順に読む。
 2. `git log --oneline` と `git status` で、最後のコミット以降に変更がないか確認する。
-3. ユーザーに「お願いしていた確認事項（下記）の結果」と「次の Phase に進んでよいか」を尋ねる。
-   **承認を得るまで Phase 6 には着手しない。**
+3. ユーザーに「お願いしていた確認事項（下記）の結果」と「次に何をするか」を尋ねる。
+   ロードマップの Phase はすべて完了済み。追加の作業はユーザーの指示・承認を得てから行う。
 
 ## ユーザーから与えられた役割・進め方
 - 役割：PM 兼マスターAIエージェント。PM / Frontend / Data/API / PE Content の4エージェントを
@@ -20,18 +20,18 @@
 | ローカル | `/Users/bigbridge/Developar/Project/PhysicalEducation`（旧名 FisicalEducation から変更済み） |
 | GitHub | https://github.com/macbridge/PhysicalEducation（Public、`main` ブランチ） |
 | 公開サイト | https://macbridge.github.io/PhysicalEducation/（GitHub Pages：main / ルート） |
-| 最終コミット | `Phase 5: ball games and PE theory domains`（`git log` で確認） |
-| 完了 Phase | Phase 0（基盤）、Phase 1 のうち実装分、Phase 2〜5（A〜H 全8領域の実装済み） |
+| 最終コミット | `Phase 6: dashboard, accessibility, teacher guide`（`git log` で確認） |
+| 完了 Phase | Phase 0〜6 すべて（Phase 1 のユーザー側検証のみ未実施） |
 
 ## ユーザーの回答待ち
-2026-10-29 の再開時点で 1〜3 は「まだ試していない／未確認」との回答。Phase 3〜5 は承認を得て実施済み。
+2026-10-29 の再開時点で 1〜3 は「まだ試していない／未確認」との回答。Phase 3〜6 は承認を得て実施済み。
 1. テスト用スプレッドシートに `gas_backend.gs` をデプロイし、設定画面で接続テスト（手順：`docs/SETUP_GUIDE.md`）
 2. 学校の Google Workspace で「アクセスできるユーザー：全員」でのデプロイが可能か
 3. Chromebook / iPad 実機で陸上・水泳・体つくり運動ページの表示確認（デモモードで記録入力も可）
 4. 体力テスト得点表（`js/fitness.js` の `SCORE_TABLE`）が、学校で使っている文科省の得点表と一致しているか
 5. 器械運動・武道の技の一覧、ダンスの評価観点が授業の内容と合っているか
 6. 球技のスタッツ項目、体育理論の解説・テスト問題が授業（教科書）と合っているか
-7. Phase 6（ダッシュボード・仕上げ）に進めてよいか
+7. 今後の候補（ROADMAP「今後の候補」）のうち、必要なものがあるか
 
 → 1・2 で問題が出た場合は次の Phase より先に接続方式の見直し（PROJECT_PLAN §3.1 の検討事項）を優先する。
 
@@ -56,6 +56,11 @@
 - `pe:records-changed` の `detail.source` が `"panel"` 以外（例：体育理論のテスト）のときは、
   共通の「記録とふり返り」パネルが `detail.metric` のタブに切り替えて読み直す。
 - 作戦ボードは `js/content/board.js`（コート図は viewBox 600×360、左右対称のコートは左半分を反転して描画）。
+- トップの「わたしの記録」は `js/dashboard.js`（接続時のみ動的 import。領域ごとの要約関数 `SUMMARIES`）。
+  新しい記録形式を追加したら、ここの要約も合わせて更新する。
+- 配色：領域色（`config.js` の color）は白文字とのコントラスト 4.5:1 以上。文字・線には `--domain-ink` を使う
+  （ダークモードでは領域色を 60% にして白と混ぜた明るい色になる）。
+- 教員向けの説明は `docs/TEACHER_GUIDE.md`。metric の形式を増やしたら §5 の表も更新する。
 - 共通ヘルパー：`records.js` の `latestByMetric` / `countOverTime` / `today`、`charts.js` の `renderLinesChart`（複数系列）。
 - 記録の解析・整形・集計は `js/records.js`（純粋関数）。通信は `js/api.js`（GAS とデモモードを自動で切り替え）。
 - グラフは `js/charts.js`（Chart.js 4.4.1、cdnjs から読み込み。タイムは y 軸を反転。`renderRadarChart` あり）。
@@ -73,10 +78,8 @@
 - シード用の HTML には必ず `<meta charset="utf-8">` を付ける（無いと日本語の metric が文字化けする）。
 - 公開確認：push 後に `gh api repos/macbridge/PhysicalEducation/pages/builds/latest` で反映されたコミットを確認。
 
-## 次の Phase 6 の着手案（承認後）
-- ダッシュボード（トップページまたは専用ページ）：全領域の記録を1回の `getRecords()`（domain 指定なし）で取得し、
-  領域ごとの最新記録・記録回数・習得率などをカードで一覧表示する。
-- アクセシビリティ・パフォーマンス：キーボード操作、タブの role/aria の整理、ライト/ダーク両方のコントラスト確認、
-  Chart.js を使わないページでは読み込まない等。
-- 教員向けマニュアル（`docs/TEACHER_GUIDE.md`）：テンプレートシートの配布、生徒の初期設定、シートの見方（metric の意味）。
-- 必要に応じて：運動計画ワークシート（A）、ダンス作品づくりシート（G）、作戦ボードの保存（E）。
+## 今後の候補（ユーザーの要望があれば）
+- 実機（Chromebook / iPad）・学校の Google Workspace での検証結果を受けた修正（最優先）
+- A：運動計画ワークシート（計画の内容そのものを保存。Profile シートか Records の memo を使う案）
+- G：ダンス作品づくりシート（テーマ・構成メモ）
+- E：作戦ボードの配置の保存（localStorage または Records）

@@ -14,11 +14,15 @@ function renderHeader() {
   const header = document.querySelector("[data-site-header]");
   if (!header) return;
   const badge = isDemo() ? ' <span class="badge badge--demo">デモ</span>' : isConnected() ? "" : ' <span class="badge">未接続</span>';
+  const here = location.pathname.endsWith("settings.html") ? "settings" : document.querySelector("[data-domain-grid]") ? "home" : "";
+  const current = (name) => (here === name ? ' aria-current="page"' : "");
+  document.querySelector("main")?.setAttribute("id", "main");
   header.innerHTML = `
+    <a class="skip-link" href="#main">本文へスキップ</a>
     <a class="brand" href="${root}index.html">体育ラーニング</a>
     <nav class="site-nav" aria-label="メインメニュー">
-      <a href="${root}index.html">ホーム</a>
-      <a href="${root}pages/settings.html">設定${badge}</a>
+      <a href="${root}index.html"${current("home")}>ホーム</a>
+      <a href="${root}pages/settings.html"${current("settings")}>設定${badge}</a>
     </nav>`;
 }
 
@@ -30,7 +34,10 @@ function renderDomainGrid() {
       <span class="domain-card__id">${d.id}</span>
       <span class="domain-card__name">${d.name}</span>
       <span class="domain-card__summary">${d.summary}</span>
+      <span class="domain-card__mine" data-domain-mine="${d.id}" hidden></span>
     </a>`).join("");
+  // 接続済みなら、各カードに自分の記録の要約を表示する（領域のデータを読むため、トップページでだけ読み込む）
+  if (isConnected()) import("./dashboard.js").then((m) => m.renderDashboard());
 }
 
 function statTiles(summary, metric) {
@@ -242,6 +249,19 @@ function renderSettings() {
     renderHeader();
   });
 }
+
+// タブ（role="tab"）は左右の矢印キー・Home・End でも切り替えられるようにする
+document.addEventListener("keydown", (e) => {
+  const tab = e.target.closest?.('[role="tab"]');
+  if (!tab || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+  const tabs = [...tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]')];
+  const i = tabs.indexOf(tab);
+  const next = { ArrowLeft: i - 1, ArrowRight: i + 1, Home: 0, End: tabs.length - 1 }[e.key];
+  const target = tabs[(next + tabs.length) % tabs.length];
+  e.preventDefault();
+  target.focus();
+  target.click();
+});
 
 renderHeader();
 renderDomainGrid();

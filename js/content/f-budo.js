@@ -2,7 +2,7 @@
 // ねらい・技の例示は高等学校学習指導要領解説（保健体育編）に基づく
 import { renderSkillCheck } from "./skillcheck.js";
 
-const SPORTS = [
+export const SPORTS = [
   {
     name: "柔道",
     short: "柔道",

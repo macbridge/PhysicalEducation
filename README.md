@@ -18,6 +18,9 @@ python3 -m http.server 8000
 
 ## ドキュメント
 
+- [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md) — 初期設定マニュアル（生徒向け）
+- [docs/TEACHER_GUIDE.md](docs/TEACHER_GUIDE.md) — 教員向けマニュアル（導入手順・シートの見方・内容の変更方法）
+
 - [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — 要件・構成・エージェント役割
 - [docs/ROADMAP.md](docs/ROADMAP.md) — 開発ロードマップ
 - [docs/TODO.md](docs/TODO.md) — タスク・進捗

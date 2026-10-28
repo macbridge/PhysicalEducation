@@ -43,7 +43,7 @@ const TOPICS = [
 const CARD_OPTIONS = { pointsTitle: "学習のポイント", rulesTitle: "運動の例" };
 
 const SEX_KEY = "pe-platform:fitness-sex";
-const loadSex = () => {
+export const loadSex = () => {
   try {
     return localStorage.getItem(SEX_KEY);
   } catch {

@@ -2,7 +2,7 @@
 // ねらい・技の系統は高等学校学習指導要領解説（保健体育編）の例示に基づく
 import { renderSkillCheck } from "./skillcheck.js";
 
-const SPORTS = [
+export const SPORTS = [
   {
     name: "マット運動",
     short: "マット",

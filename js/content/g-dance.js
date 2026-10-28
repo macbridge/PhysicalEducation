@@ -7,7 +7,7 @@ import { api, isConnected } from "../api.js";
 import { renderRadarChart, renderLinesChart } from "../charts.js";
 import { latestByMetric, today } from "../records.js";
 
-const DANCES = [
+export const DANCES = [
   {
     id: "sosaku",
     name: "創作ダンス",
